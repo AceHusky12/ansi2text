@@ -24,6 +24,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <err.h>
+#include <errno.h>
 #include <fcntl.h>
 #include <inttypes.h>
 #include <limits.h>
@@ -348,7 +350,7 @@ main(int argc, char **argv) {
 
 	if (*argv) {
 		if ((fdin = open(*argv, O_RDONLY)) < 0)
-			err("Error opening file: %s", *argv);
+			err(errno, "Error opening file: %s", *argv);
 	}
 
 	screensize = cols * lines;
