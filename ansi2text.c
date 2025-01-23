@@ -152,7 +152,7 @@ writescreen(void) {
 	return;
 }
 void parseansi(void) {
-	unsigned int j, k, l;
+	unsigned int j, k, l, total;
 	/* Strip first two characters esc[ */
 	for (j = 0; j < sizeof(ansibuffer); j++) {
 		if (j + 2 >= (sizeof(ansibuffer)))
@@ -162,7 +162,8 @@ void parseansi(void) {
 		ansibuffer[j] = k;
 	}
 	ansinum = strtoimax(ansibuffer, &leftover, 10);
-	strcpy(ansibuffer, leftover);
+	total = sizeof(ansibuffer) - (leftover - ansibuffer);
+	memmove(ansibuffer, leftover, total);
 
 	if (ansicode == 'J') {
 		writescreen();
@@ -297,7 +298,8 @@ void parseansi(void) {
 				ansibuffer[j] = k;
 			}
 			ansinum = strtoimax(ansibuffer, &leftover, 10);
-			strcpy(ansibuffer, leftover);
+			total = sizeof(ansibuffer) - (leftover - ansibuffer);
+			memmove(ansibuffer, leftover, total);
 
 			if (ansinum >= 0 && ansinum < 30)
 				ansiattr = ansinum;
