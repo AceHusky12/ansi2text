@@ -372,6 +372,12 @@ main(int argc, char **argv) {
 	memset(fgcolor, -1, screensize);
 	memset(attributes, -1, screensize);
 
+	csistart = false;
+	memset(ansibuffer, 0, sizeof(ansibuffer));
+	ansipos = 0;
+	ansinum = 0;
+	ansicode = 0;
+
 	while ((nr = read(fdin, &buffer, sizeof(buffer))) != -1 
 	    && nr != 0) {
 		for(readpos = 0; readpos < nr; readpos++) {
